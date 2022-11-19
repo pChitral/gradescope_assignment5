@@ -375,7 +375,7 @@ def ex28():
     # output columns: min_price
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select round(min(prod_price), 2) as min_price from products"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
