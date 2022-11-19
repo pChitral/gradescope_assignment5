@@ -269,7 +269,7 @@ def ex20():
     # output columns: prod_id, prod_price, prod_name
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select prod_id, prod_price, prod_name from products where prod_name like '%anvil'"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
@@ -282,7 +282,7 @@ def ex21():
     # output columns: vend_title
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "SELECT vend_name||' ('||vend_country||')' AS 'vend_title' FROM vendors ORDER BY vend_name;"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
