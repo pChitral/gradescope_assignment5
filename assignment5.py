@@ -310,7 +310,7 @@ def ex23():
     # https://www.sqlitetutorial.net/sqlite-date-functions/sqlite-date-function/
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "SELECT order_num, order_date FROM orders WHERE order_date BETWEEN '2005-09-13' AND '2005-10-04';"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
@@ -323,7 +323,7 @@ def ex24():
     # output columns: avg_price
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = " SELECT AVG(prod_price) AS avg_price FROM products;"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)

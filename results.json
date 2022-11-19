@@ -107,17 +107,15 @@
         },
         {
             "name": "test_ex23 (test_assignment5.TestAssignment5)",
-            "score": 0.0,
+            "score": 3,
             "max_score": 3,
-            "output": "Test Failed: 'NoneType' object is not iterable\n",
             "visibility": "visible",
             "number": "ex23"
         },
         {
             "name": "test_ex24 (test_assignment5.TestAssignment5)",
-            "score": 0.0,
+            "score": 3,
             "max_score": 3,
-            "output": "Test Failed: 'NoneType' object is not iterable\n",
             "visibility": "visible",
             "number": "ex24"
         },
@@ -262,5 +260,5 @@
     "leaderboard": [],
     "visibility": "visible",
     "execution_time": "0.05",
-    "score": 66.0
+    "score": 72.0
 }
