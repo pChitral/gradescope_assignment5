@@ -107,7 +107,7 @@ def ex7():
     # output columns: prod_id, prod_price, prod_name
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "SELECT p.prod_id, p.prod_price, p.prod_name FROM products p ORDER BY prod_price, prod_name"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
@@ -120,7 +120,7 @@ def ex8():
     # output columns: prod_id, prod_price, prod_name
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "SELECT p.prod_id, p.prod_price, p.prod_name FROM products p ORDER BY prod_price DESC, prod_name  "
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
