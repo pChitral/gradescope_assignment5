@@ -132,7 +132,7 @@ def ex9():
     # output columns: prod_id, prod_price, prod_name
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "SELECT p.prod_id, p.prod_price, p.prod_name FROM products p WHERE prod_price = 2.50"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
