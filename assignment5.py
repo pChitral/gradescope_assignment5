@@ -193,7 +193,7 @@ def ex14():
     # output columns: cust_id, cust_name
 
     # BEGIN SOLUTION
-    sql_statement = "select c.cust_id, c.cust_name from customers c where cust_email is null " 
+    sql_statement = "select c.cust_id, c.cust_name from customers c where cust_email is null "
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
@@ -206,7 +206,7 @@ def ex15():
     # output columns: vend_id, prod_id, prod_price, prod_name
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select vend_id, prod_id, prod_price, prod_name from products where vend_id = 1003 and prod_price <= 10"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
@@ -219,7 +219,7 @@ def ex16():
     # output columns: vend_id, prod_id, prod_price, prod_name
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select vend_id, prod_id, prod_price, prod_name from products where vend_id = 1002 and prod_price >= 5 or vend_id = 1003 and prod_price >= 5"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
