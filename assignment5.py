@@ -388,7 +388,7 @@ def ex29():
     # output columns: items_ordered
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select sum(quantity) as items_ordered  from orderitems where order_num = 20005 "
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
