@@ -232,7 +232,7 @@ def ex17():
     # output columns: vend_id, prod_id, prod_price, prod_name
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select vend_id, prod_id, prod_price, prod_name from products where vend_id in (1002 , 1003 , 1005)"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
