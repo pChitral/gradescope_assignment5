@@ -336,7 +336,7 @@ def ex25():
     # output columns: avg_price
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select AVG(prod_price) as avg_price from products where vend_id = 1003"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
