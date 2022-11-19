@@ -245,7 +245,7 @@ def ex18():
     # output columns: vend_id, prod_id, prod_price, prod_name
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select vend_id, prod_id, prod_price, prod_name from products where vend_id not in (1002, 1003)"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
@@ -257,7 +257,7 @@ def ex19():
     # output columns: prod_id, prod_price, prod_name
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select prod_id, prod_price, prod_name from products where prod_name like 'jet%'"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
