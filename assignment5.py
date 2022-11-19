@@ -296,7 +296,7 @@ def ex22():
     # output columns: prod_id, quantity, item_price, expanded_price
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "SELECT prod_id, quantity, item_price, ROUND(quantity*item_price, 2) AS expanded_price FROM orderitems where order_num == 20005 "
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
