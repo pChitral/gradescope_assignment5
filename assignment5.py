@@ -362,7 +362,7 @@ def ex27():
     # output columns: max_price
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select round(max(prod_price), 2) as max_price from products "
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
