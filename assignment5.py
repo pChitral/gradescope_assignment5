@@ -349,7 +349,7 @@ def ex26():
     # output columns: num_cust
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select count(cust_id) as num_cust from customers"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn_orders)
     # display(df)
