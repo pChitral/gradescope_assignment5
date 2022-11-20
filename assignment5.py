@@ -468,6 +468,11 @@ def normalize_database(non_normalized_db_filename):
 
     # BEGIN SOLUTION
 
+    """ 
+    
+    #### Handling Degree table ####
+    
+    """
     # Creating our connection with the non_normalized database
     conn = create_connection('non_normalized.db')
 
@@ -477,7 +482,7 @@ def normalize_database(non_normalized_db_filename):
     degrees = list(map(lambda row: str(row[0]), degrees))
 
     # Creating query to make new Degree Table
-    create_table_sql = """CREATE TABLE [Degree] (
+    create_table_sql = """CREATE TABLE [Degrees] (
     [Degree] NOT NULL PRIMARY KEY
     );
     """
@@ -489,7 +494,7 @@ def normalize_database(non_normalized_db_filename):
     # conn_norm.close()
 
     def insert_degree(conn, values):
-        sql = ''' INSERT INTO DEGREE(DEGREE)
+        sql = ''' INSERT INTO DEGREES(DEGREE)
                 VALUES(?) '''
         cur = conn.cursor()
         cur.execute(sql, values)
@@ -499,6 +504,12 @@ def normalize_database(non_normalized_db_filename):
         for degree in degrees:
             insert_degree(conn_norm, (degree, ))
 
+    
+    """ 
+    
+    #### Handling Exams table ####
+    
+    """
     # Creating our connection with the non_normalized database
     conn = create_connection('non_normalized.db')
 
@@ -537,7 +548,7 @@ def normalize_database(non_normalized_db_filename):
     [Year] INTEGER NOT NULL 
     );
     """
-    # # Setting up connection with the normalized db
+    # Setting up connection with the normalized db
     # conn_norm = create_connection('normalized.db')
 
     # Creating our Exams table
@@ -558,6 +569,68 @@ def normalize_database(non_normalized_db_filename):
                 insert_exams(conn_norm, (exam_and_year[0], exam_and_year[1]))
             except Error:
                 print(Error)
+    
+    """
+    
+    #### Handling Students Table ####
+    
+    """
+    
+    conn = create_connection('non_normalized.db')
+
+
+    # Fetching all the degrees in a list
+    sql_statement = "SELECT Degree from Students"
+    degrees = execute_sql_statement(sql_statement, conn)
+    degree_list = list(map(lambda row: str(row[0]), degrees))
+    # # Code that return 1 or 2 depending on what degree it is.
+    # degrees = list(map(lambda row: 1 if str(row[0]) == "graduate" else 2, degrees))
+
+    # Fetching students from the non_normalized database
+    sql_statement = "SELECT Name FROM Students"
+
+    student_names = execute_sql_statement(sql_statement, conn)
+    full_names = list(map(lambda row: str(row[0]), student_names))
+
+    # Splitting the full_name in first_name and last_name and storing it in the list
+    first_name, last_name = [], []
+
+    for full_name in full_names:
+        first_name.append(full_name.split(",")[0])
+        last_name.append(full_name.split(",")[1].strip())
+        
+    # That our data is ready, we can create our student table 
+
+    create_table_sql = """CREATE TABLE IF NOT EXISTS [Students] (
+        [StudentID] INTEGER NOT NULL PRIMARY KEY,
+        [First_Name] TEXT NOT NULL,
+        [Last_Name] TEXT NOT NULL,
+        [Degree] TEXT NOT NULL,
+        FOREIGN KEY(Degree) REFERENCES Degrees(Degree) 
+    );
+    """
+    conn_norm = create_connection('normalized.db')
+
+    create_table(conn_norm, create_table_sql)
+
+    def insert_students(conn, values):
+        sql = ''' INSERT INTO Students (StudentID, First_Name, Last_Name, Degree)
+                VALUES(?, ?, ?, ?) '''
+        cur = conn.cursor()
+        cur.execute(sql, values)
+        return cur.lastrowid
+
+
+    with conn_norm:
+        for i in range(len(first_name)):
+            insert_students(conn_norm, (i, first_name[i], last_name[i], degree_list[i]))
+
+
+
+    
+    
+    
+    
 
     # END SOLUTION
 
