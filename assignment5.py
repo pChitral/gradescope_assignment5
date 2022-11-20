@@ -467,7 +467,45 @@ def normalize_database(non_normalized_db_filename):
     #         [Score] exam score
 
     # BEGIN SOLUTION
+    
+    # Creating our connection with the non_normalized database
+    conn = create_connection('non_normalized.db')
+    
+    # Fetching all the degrees in a list
+    sql_statement = "SELECT DISTINCT Degree from Students ORDER BY Degree"
+    degrees = execute_sql_statement(sql_statement, conn)
+    degrees = list(map(lambda row: str(row[0]), degrees))
+    
+    
+    # Creating query to make new Degree Table
+    create_table_sql = """CREATE TABLE [Degree] (
+    [Degree] NOT NULL PRIMARY KEY
+    );
+    """
+    # Setting up connection with the normalized db 
+    conn_norm = create_connection('normalized.db', True)
+    
+    # Creating our degree table 
+    create_table(conn_norm, create_table_sql)
+    # conn_norm.close()
+    
+    
+    def insert_degree(conn, values):
+        sql = ''' INSERT INTO DEGREE(DEGREE)
+                VALUES(?) '''
+        cur = conn.cursor()
+        cur.execute(sql, values)
+        return cur.lastrowid
+    conn_norm = create_connection('normalized.db')
+    with conn_norm:
+        for degree in degrees:
+            insert_degree(conn_norm, (degree, ))
+            
+    
+    
     pass
+    
+    
     # END SOLUTION
 
 
