@@ -467,29 +467,27 @@ def normalize_database(non_normalized_db_filename):
     #         [Score] exam score
 
     # BEGIN SOLUTION
-    
+
     # Creating our connection with the non_normalized database
     conn = create_connection('non_normalized.db')
-    
+
     # Fetching all the degrees in a list
     sql_statement = "SELECT DISTINCT Degree from Students ORDER BY Degree"
     degrees = execute_sql_statement(sql_statement, conn)
     degrees = list(map(lambda row: str(row[0]), degrees))
-    
-    
+
     # Creating query to make new Degree Table
     create_table_sql = """CREATE TABLE [Degree] (
     [Degree] NOT NULL PRIMARY KEY
     );
     """
-    # Setting up connection with the normalized db 
+    # Setting up connection with the normalized db
     conn_norm = create_connection('normalized.db', True)
-    
-    # Creating our degree table 
+
+    # Creating our degree table
     create_table(conn_norm, create_table_sql)
     # conn_norm.close()
-    
-    
+
     def insert_degree(conn, values):
         sql = ''' INSERT INTO DEGREE(DEGREE)
                 VALUES(?) '''
@@ -500,12 +498,67 @@ def normalize_database(non_normalized_db_filename):
     with conn_norm:
         for degree in degrees:
             insert_degree(conn_norm, (degree, ))
-            
-    
-    
-    pass
-    
-    
+
+    # Creating our connection with the non_normalized database
+    conn = create_connection('non_normalized.db')
+
+    # Fetching all the exams in a list
+    sql_statement = "SELECT DISTINCT Exams from Students ORDER BY Exams"
+    exams = execute_sql_statement(sql_statement, conn)
+    exams = list(map(lambda row: (row[0]), exams))
+
+    # Creating a hashmap for exam and year where key is exam and value is the year
+    hasho = {}
+    for exam in exams:
+        if("," not in exam):
+            key, value = exam.split(" ")
+            if key in hasho:
+                continue
+            else:
+                hasho[key] = int(value.replace("(", "").replace(")", ""))
+        else:
+            list_of_exams = exam.split(",")
+            for exam in list_of_exams:
+                key, value = exam.strip().split()
+                if key not in hasho:
+                    hasho[key] = int(value.replace("(", "").replace(")", ""))
+                else:
+                    continue
+    list_of_tuples_exams_years = []
+
+    for exam, year in hasho.items():
+        list_of_tuples_exams_years.append((exam, year))
+
+    # `list_of_tuples_exams_years` holds the list of tuples that we wish to use while creating our exams table
+
+    # Creating query to make new Exams Table
+    create_table_sql = """CREATE TABLE [Exams] (
+    [Exam] NOT NULL PRIMARY KEY,
+    [Year] INTEGER NOT NULL 
+    );
+    """
+    # # Setting up connection with the normalized db
+    # conn_norm = create_connection('normalized.db')
+
+    # Creating our Exams table
+    create_table(conn_norm, create_table_sql)
+    # conn_norm.close()
+
+    def insert_exams(conn, values):
+        sql = ''' INSERT INTO Exams(Exam, Year)
+                VALUES(?, ?) '''
+        cur = conn.cursor()
+        cur.execute(sql, values)
+        return cur.lastrowid
+
+    conn_norm = create_connection('normalized.db')
+    with conn_norm:
+        for exam_and_year in list_of_tuples_exams_years:
+            try:
+                insert_exams(conn_norm, (exam_and_year[0], exam_and_year[1]))
+            except Error:
+                print(Error)
+
     # END SOLUTION
 
 
