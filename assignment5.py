@@ -623,7 +623,7 @@ def normalize_database(non_normalized_db_filename):
 
     with conn_norm:
         for i in range(len(first_name)):
-            insert_students(conn_norm, (i, first_name[i], last_name[i], degree_list[i]))
+            insert_students(conn_norm, (i+1, first_name[i], last_name[i], degree_list[i]))
 
 
 
