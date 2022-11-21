@@ -163,9 +163,8 @@
         },
         {
             "name": "test_ex30 (test_assignment5.TestAssignment5)",
-            "score": 0.0,
+            "score": 6,
             "max_score": 6,
-            "output": "Test Failed: 'NoneType' object is not iterable\n",
             "visibility": "visible",
             "number": "ex30"
         },
@@ -254,6 +253,6 @@
     ],
     "leaderboard": [],
     "visibility": "visible",
-    "execution_time": "0.05",
-    "score": 87.0
+    "execution_time": "0.04",
+    "score": 93.0
 }

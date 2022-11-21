@@ -688,7 +688,7 @@ def ex30(conn):
     # output columns: exam, year
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select Exam, Year from Exams order by Year, Exam"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn)
     # display(df)
