@@ -629,11 +629,11 @@ def normalize_database(non_normalized_db_filename):
     # Creating our connection with the non_normalized database
     conn = create_connection('non_normalized.db')
 
-    # Creating list of scores 
+    # Creating list of scores
     sql_statement = "SELECT Scores from Students"
     all_scores = execute_sql_statement(sql_statement, conn)
     all_scores = list(map(lambda row: str(row[0]), all_scores))
-      
+
     scores_list_for_ith_student = []
     for score_string in all_scores:
         student_total_score = []
@@ -645,7 +645,7 @@ def normalize_database(non_normalized_db_filename):
     sql_statement = "SELECT Exams from Students"
     exams = execute_sql_statement(sql_statement, conn)
     exams = list(map(lambda row: (row[0]), exams))
- 
+
     exams_list_for_ith_student = []
     for exam_string in exams:
         exams_list_for_ith_student.append(exam_string.split(" ")[0::2])
@@ -700,7 +700,7 @@ def ex31(conn):
     # output columns: degree
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select degree from Degrees order by Degree"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn)
     # display(df)
@@ -712,7 +712,7 @@ def ex32(conn):
     # output columns: degree, count_degree
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "select Degree, count(Degree) as count_degree from Students group by Degree"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn)
     # display(df)
@@ -725,7 +725,7 @@ def ex33(conn):
     # round to two decimal places
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = "SELECT StudentExamScores.Exam, Exams.year, ROUND(AVG(StudentExamScores.Score),2) as average from StudentExamScores INNER JOIN Exams ON StudentExamScores.Exam = Exams.Exam group by StudentExamScores.Exam ORDER BY AVG(StudentExamScores.Score) DESC;"
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn)
     # display(df)
