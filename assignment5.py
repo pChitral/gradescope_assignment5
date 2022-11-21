@@ -467,11 +467,10 @@ def normalize_database(non_normalized_db_filename):
     #         [Score] exam score
 
     # BEGIN SOLUTION
-
     """ 
-    
+
     #### Handling Degree table ####
-    
+
     """
     # Creating our connection with the non_normalized database
     conn = create_connection('non_normalized.db')
@@ -504,7 +503,6 @@ def normalize_database(non_normalized_db_filename):
         for degree in degrees:
             insert_degree(conn_norm, (degree, ))
 
-    
     """ 
     
     #### Handling Exams table ####
@@ -569,15 +567,14 @@ def normalize_database(non_normalized_db_filename):
                 insert_exams(conn_norm, (exam_and_year[0], exam_and_year[1]))
             except Error:
                 print(Error)
-    
+
     """
     
     #### Handling Students Table ####
     
     """
-    
-    conn = create_connection('non_normalized.db')
 
+    conn = create_connection('non_normalized.db')
 
     # Fetching all the degrees in a list
     sql_statement = "SELECT Degree from Students"
@@ -598,8 +595,8 @@ def normalize_database(non_normalized_db_filename):
     for full_name in full_names:
         first_name.append(full_name.split(",")[0])
         last_name.append(full_name.split(",")[1].strip())
-        
-    # That our data is ready, we can create our student table 
+
+    # That our data is ready, we can create our student table
 
     create_table_sql = """CREATE TABLE IF NOT EXISTS [Students] (
         [StudentID] INTEGER NOT NULL PRIMARY KEY,
@@ -620,17 +617,65 @@ def normalize_database(non_normalized_db_filename):
         cur.execute(sql, values)
         return cur.lastrowid
 
-
     with conn_norm:
         for i in range(len(first_name)):
-            insert_students(conn_norm, (i+1, first_name[i], last_name[i], degree_list[i]))
+            insert_students(
+                conn_norm, (i+1, first_name[i], last_name[i], degree_list[i]))
 
+    """
+    Handling the final part
+    
+    """
+    # Creating our connection with the non_normalized database
+    conn = create_connection('non_normalized.db')
 
+    # Creating list of scores 
+    sql_statement = "SELECT Scores from Students"
+    all_scores = execute_sql_statement(sql_statement, conn)
+    all_scores = list(map(lambda row: str(row[0]), all_scores))
+      
+    scores_list_for_ith_student = []
+    for score_string in all_scores:
+        student_total_score = []
+        for score in score_string.split(","):
+            student_total_score.append(int(score))
+        scores_list_for_ith_student.append(student_total_score)
 
-    
-    
-    
-    
+    # Creating list of exams
+    sql_statement = "SELECT Exams from Students"
+    exams = execute_sql_statement(sql_statement, conn)
+    exams = list(map(lambda row: (row[0]), exams))
+ 
+    exams_list_for_ith_student = []
+    for exam_string in exams:
+        exams_list_for_ith_student.append(exam_string.split(" ")[0::2])
+
+    def insert_student_exam_scores(conn, values):
+        sql = ''' INSERT INTO StudentExamScores (PK, StudentID, Exam, Score)
+                VALUES(?, ?, ?, ?) '''
+        cur = conn.cursor()
+        cur.execute(sql, values)
+        return cur.lastrowid
+
+    create_table_sql = """CREATE TABLE IF NOT EXISTS [StudentExamScores] (
+        [PK] INTEGER NOT NULL PRIMARY KEY,
+        [StudentID] INTEGER NOT NULL, 
+        [Exam] TEXT NOT NULL,
+        [Score] INTEGER NOT NULL,
+        FOREIGN KEY(StudentID) REFERENCES Students(StudentID),
+        FOREIGN KEY(Exam) REFERENCES Exams(Exam)
+    );
+    """
+    conn_norm = create_connection('normalized.db')
+    create_table(conn_norm, create_table_sql)
+
+    count = 0
+    with conn_norm:
+        for i in range(len(exams_list_for_ith_student)):
+            for j in range(len(exams_list_for_ith_student[i])):
+                count += 1
+                insert_student_exam_scores(
+                    conn_norm, (count, i+1, exams_list_for_ith_student[i][j], scores_list_for_ith_student[i][j]))
 
     # END SOLUTION
 
