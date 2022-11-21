@@ -738,7 +738,13 @@ def ex34(conn):
     # round to two decimal places
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = """
+    SELECT Students.Degree, round(avg(StudentExamScores.Score),2)  
+    as average FROM StudentExamScores 
+    JOIN Students ON StudentExamScores.StudentID = Students.StudentID 
+    GROUP BY Students.Degree 
+    ORDER BY average DESC
+    """
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn)
     # display(df)
@@ -753,7 +759,13 @@ def ex35(conn):
     # Warning two of the students have the same average!!!
 
     # BEGIN SOLUTION
-    sql_statement = ""
+    sql_statement = """
+    SELECT Students.Last_Name as First_Name, Students.First_Name as Last_Name, Students.Degree, ROUND(AVG(StudentExamScores.Score),2) as average
+    FROM StudentExamScores 
+    JOIN Students ON StudentExamScores.StudentID = Students.StudentID
+    GROUP BY Students.StudentID 
+    ORDER BY average DESC LIMIT 10 
+    """
     # END SOLUTION
     # df = pd.read_sql_query(sql_statement, conn)
     # display(df)
